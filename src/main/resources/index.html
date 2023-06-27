@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Endpoint Display</title>
+</head>
+<body>
+    <h1>Endpoints:</h1>
+    <ul id="endpoints"></ul>
+
+    <script>
+        fetch('/openapi')
+            .then(response => response.json())
+            .then(data => {
+                const paths = data.paths;
+                const endpointList = document.getElementById('endpoints');
+                for (const endpoint in paths) {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = endpoint;
+                    endpointList.appendChild(listItem);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
