@@ -76,4 +76,11 @@ public class PersonResource {
             logger.warn("Person with ID {} not found", id);
         }
     }
+
+    @GET
+    @Path("/details")
+     public List<Person> getErrorPersons() {
+        logger.error("Retrieving all persons");
+        return em.createQuery("SELECT p FROM Person q", Person.class).getResultList();
+    }
 }
