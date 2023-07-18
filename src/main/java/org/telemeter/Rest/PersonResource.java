@@ -16,7 +16,9 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 import org.jboss.logging.Logger;
+import org.jboss.logmanager.LogManager;
 import org.telemeter.Entity.Person;
+
 
 @Path("/persons")
 @Produces(MediaType.APPLICATION_JSON)
@@ -37,7 +39,7 @@ public class PersonResource {
     @GET
     @Path("/{id}")
     public Person getPersonById(@PathParam("id") Long id) {
-        logger.info("Retrieving person by ID: " + id);
+        logger.info("Retrieving person by ID: {}" + id);
         return em.find(Person.class, id);
     }
 
@@ -45,7 +47,7 @@ public class PersonResource {
     @Transactional
     public void createPerson(Person person) {
         em.merge(person);
-        logger.info("Created new person: " + person.getName());
+        logger.info("Created new person: {}" + person.getName());
     }
 
     @PUT
@@ -56,9 +58,9 @@ public class PersonResource {
         if (person != null) {
             person.setName(updatedPerson.getName());
             person.setAge(updatedPerson.getAge());
-            logger.info("Updated person with ID " + id + ": " + updatedPerson.getName());
+            logger.info("Updated person with ID {}: {}" + id +updatedPerson.getName());
         } else {
-            logger.warn("Person with ID " + id + " not found");
+            logger.warn("Person with ID {} not found"+ id);
         }
     }
 
@@ -69,15 +71,15 @@ public class PersonResource {
         Person person = em.find(Person.class, id);
         if (person != null) {
             em.remove(person);
-            logger.info("Deleted person with ID " + id);
+            logger.info("Deleted person with ID {}"+ id);
         } else {
-            logger.warn("Person with ID " + id + " not found");
+            logger.warn("Person with ID {} not found"+ id);
         }
     }
 
     @GET
     @Path("/details")
-    public List<Person> getErrorPersons() {
+     public List<Person> getErrorPersons() {
         logger.error("Retrieving all persons");
         return em.createQuery("SELECT p FROM Person q", Person.class).getResultList();
     }
