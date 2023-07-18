@@ -91,6 +91,6 @@ COPY --chown=185 target/quarkus-app/quarkus/ /deployments/quarkus/
 EXPOSE 8080
 USER 185
 ENV AB_JOLOKIA_OFF=""
-ENV JAVA_OPTS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
+ENV JAVA_OPTS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -Dquarkus.datasource.jdbc.url=jdbc:postgresql://dev-postgres-primary.postgresql-workspace.svc:5432/dev-postgres?password=A%7Cs6i%28d%2Cvq%29_W%7Dak0D2%3BBm%7D%7D&user=dev-postgres"
 ENV JAVA_APP_JAR="/deployments/quarkus-run.jar"
 
