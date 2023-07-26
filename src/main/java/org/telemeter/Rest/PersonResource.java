@@ -14,11 +14,11 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telemeter.Entity.Person;
-
 
 @Path("/persons")
 @Produces(MediaType.APPLICATION_JSON)
@@ -43,11 +43,25 @@ public class PersonResource {
         return em.find(Person.class, id);
     }
 
+    @GET
+    @Path("/error")
+    public Response getAndError() {
+        try {
+            logger.info("error on api call: {}");
+            throw new RuntimeException("Error due to some technical issue");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.serverError().build();
+
+        }
+    }
+
     @POST
     @Transactional
-    public void createPerson(Person person) {
+    public Response createPerson(Person person) {
         em.merge(person);
         logger.info("Created new person: {}", person.getName());
+        return Response.status(200).build();
     }
 
     @PUT
